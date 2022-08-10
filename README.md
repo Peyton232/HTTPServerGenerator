@@ -7,7 +7,8 @@ HTTP Server Generator
 https://img.shields.io/github/issues-closed/Peyton232/HTTPServerGenerator
 https://img.shields.io/github/milestones/open/Peyton232/HTTPServerGenerator
 https://img.shields.io/github/last-commit/Peyton232/HTTPServerGenerator
-https://img.shields.io/github/contributors/Peyton232/HTTPServerGenerator
+.. image:: https://img.shields.io/github/contributors/Peyton232/HTTPServerGenerator   :alt: GitHub contributors
+
 =====
 
 A lightweight and super fast Go tool for generating a simple http server. Mainly meant for use in prototyping and hackathons
