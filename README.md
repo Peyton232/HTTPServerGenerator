@@ -31,6 +31,7 @@ Creating a dart and go HTTP server is as simple as:
 * Automatic DB setup (most liekly PSQL and MongoDB support)
 * Automatic status code correction
 * Automatic test file creation
+* Basic authorization cred setup
 * Interpretation of an existing go server and creating a dart reciever from this 
 * Support default http and dio mode in dart (through run flag)
 * GraphQL support 
