@@ -1,6 +1,6 @@
 HTTP Server Generator
 &middot;
-[![Latest Github release](https://img.shields.io/appveyor/build/Peyton232/HTTPServerGenerator](https://github.com/Peyton232/HTTPServerGenerator/releases/latest)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/Peyton232/HTTPServerGenerator?display_name=tag)
 [![Build status of the master branch on Linux/OSX](https://img.shields.io/travis/Martinsos/edlib/master?label=Linux%20%2F%20OSX%20build)](https://travis-ci.com/Martinsos/edlib)
 [![Build status of the master branch on Windows](https://img.shields.io/appveyor/build/Martinsos/edlib/master?label=Windows%20build)](https://ci.appveyor.com/project/Martinsos/edlib/branch/master)
 [![Chat on Gitter](https://img.shields.io/gitter/room/Martinsos/edlib.svg?colorB=753a88)](https://gitter.im/Martinsos/edlib)
