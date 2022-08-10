@@ -3,8 +3,11 @@ HTTP Server Generator
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/Peyton232/HTTPServerGenerator?display_name=tag)
 [![Build status of the master branch on Linux/OSX](https://img.shields.io/travis/Martinsos/edlib/master?label=Linux%20%2F%20OSX%20build)](https://travis-ci.com/Martinsos/edlib)
 [![Build status of the master branch on Windows](https://img.shields.io/appveyor/build/Martinsos/edlib/master?label=Windows%20build)](https://ci.appveyor.com/project/Martinsos/edlib/branch/master)
-[![Chat on Gitter](https://img.shields.io/gitter/room/Martinsos/edlib.svg?colorB=753a88)](https://gitter.im/Martinsos/edlib)
-[![Published in Bioinformatics](https://img.shields.io/badge/Published%20in-Bioinformatics-167DA4.svg)](https://doi.org/10.1093/bioinformatics/btw753)
+![GitHub issues](https://img.shields.io/github/issues-raw/Peyton232/HTTPServerGenerator)
+https://img.shields.io/github/issues-closed/Peyton232/HTTPServerGenerator
+https://img.shields.io/github/milestones/open/Peyton232/HTTPServerGenerator
+https://img.shields.io/github/last-commit/Peyton232/HTTPServerGenerator
+https://img.shields.io/github/contributors/Peyton232/HTTPServerGenerator
 =====
 
 A lightweight and super fast Go tool for generating a simple http server. Mainly meant for use in prototyping and hackathons
