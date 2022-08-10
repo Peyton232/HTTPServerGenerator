@@ -58,6 +58,8 @@ Creating a dart and go HTTP server is as simple as:
 ## Restrictions
 Gets has no body 
 
+## Different Use Cases
+
 ### Approach #1: Directly pass in csv file thropugh env file
 Here is where I would explain this. 
 
