@@ -59,13 +59,13 @@ Creating a dart and go HTTP server is as simple as:
 Gets has no body 
 
 ### Approach #1: Directly pass in csv file thropugh env file
-
+Here is where I would explain this. 
 
 ### Approach #2: Pass in csv file location thorugh cli argument 
-
+Here is where I would explain this. 
 
 ### Approach #3: Turn on interpretation flag and pass in main.go of the server
-
+Here is where I would explain this. 
 
 ## Development and contributing
 Feel free to send pull requests and raise issues.
