@@ -57,41 +57,14 @@ Creating a dart and go HTTP server is as simple as:
 ## Restrictions
 Gets has no body 
 
-### Approach #1: Directly copying edlib source and header files.
-Here we directly copied [edlib/](edlib/) directory to our project, to get following project structure:
-```
-edlib/  -> copied from edlib/
-  include/
-    edlib.h
-  src/
-    edlib.cpp
-helloWorld.cpp -> your program
-```
+### Approach #1: Directly pass in csv file thropugh env file
 
-Since `helloWorld` is a c++ program, we can compile it with just one line: `c++ helloWorld.cpp edlib/src/edlib.cpp -o helloWorld -I edlib/include`.
 
-If hello world was a C program, we would compile it like this:
-```
-    c++ -c edlib/src/edlib.cpp -o edlib.o -I edlib/include
-    cc -c helloWorld.c -o helloWorld.o -I edlib/include
-    c++ helloWorld.o edlib.o -o helloWorld
-```
+### Approach #2: Pass in csv file location thorugh cli argument 
 
-### Approach #2: Copying edlib header file and static library.
-Instead of copying edlib source files, you could copy static library (check [Building](#building) on how to create static library). We also need to copy edlib header files. We get following project structure:
-```
-edlib/  -> copied from edlib
-  include/
-    edlib.h
-  edlib.a
-helloWorld.cpp -> your program
-```
 
-Now you can compile it with `c++ helloWorld.cpp -o helloWorld -I edlib/include -L edlib -ledlib`.
+### Approach #3: Turn on interpretation flag and pass in main.go of the server
 
-### Approach #3: Install edlib library on machine.
-Alternatively, you could avoid copying any Edlib files and instead install libraries by running `sudo make install` (check [Building](#building) for exact instructions depending on approach you used for building). Now, all you have to do to compile your project is `c++ helloWorld.cpp -o helloWorld -ledlib`.
-If you get error message like `cannot open shared object file: No such file or directory`, make sure that your linker includes path where edlib was installed.
 
 ## Development and contributing
 Feel free to send pull requests and raise issues.
