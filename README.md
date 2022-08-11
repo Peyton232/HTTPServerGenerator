@@ -80,3 +80,9 @@ Feel free to send pull requests and raise issues.
 ## FAQ
 
 ### none yet
+
+# License
+
+Copyright (c) 2015-present Peter Kieltyka
+
+Licensed under MIT License
