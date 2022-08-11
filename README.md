@@ -61,7 +61,7 @@ Gets has no body
 
 ## Different Use Cases
 
-### Approach #1: Directly pass in csv file thropugh env file
+### Approach #1: Directly pass in openAPI definition
 Here is where I would explain this. 
 
 ### Approach #2: Pass in csv file location thorugh cli argument 
