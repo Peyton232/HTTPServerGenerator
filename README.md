@@ -1,10 +1,11 @@
-HTTP Server Generator
-&middot;
-[![Latest Github release](https://img.shields.io/appveyor/build/Peyton232/HTTPServerGenerator](https://github.com/Peyton232/HTTPServerGenerator/releases/latest)
-[![Build status of the master branch on Linux/OSX](https://img.shields.io/travis/Martinsos/edlib/master?label=Linux%20%2F%20OSX%20build)](https://travis-ci.com/Martinsos/edlib)
-[![Build status of the master branch on Windows](https://img.shields.io/appveyor/build/Martinsos/edlib/master?label=Windows%20build)](https://ci.appveyor.com/project/Martinsos/edlib/branch/master)
-[![Chat on Gitter](https://img.shields.io/gitter/room/Martinsos/edlib.svg?colorB=753a88)](https://gitter.im/Martinsos/edlib)
-[![Published in Bioinformatics](https://img.shields.io/badge/Published%20in-Bioinformatics-167DA4.svg)](https://doi.org/10.1093/bioinformatics/btw753)
+# HTTP Server Generator
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/Peyton232/HTTPServerGenerator?display_name=tag)
+<!-- [![Build status of the master branch on Linux/OSX](https://img.shields.io/travis/Martinsos/edlib/master?label=Linux%20%2F%20OSX%20build)](https://travis-ci.com/Martinsos/edlib)
+[![Build status of the master branch on Windows](https://img.shields.io/appveyor/build/Martinsos/edlib/master?label=Windows%20build)](https://ci.appveyor.com/project/Martinsos/edlib/branch/master) -->
+![GitHub issues](https://img.shields.io/github/issues-raw/Peyton232/HTTPServerGenerator)
+![Issues Closed](https://img.shields.io/github/issues-closed/Peyton232/HTTPServerGenerator?display_name=tag)
+![Open Milestones](https://img.shields.io/github/milestones/open/Peyton232/HTTPServerGenerator)
+![Last Commit](https://img.shields.io/github/last-commit/Peyton232/HTTPServerGenerator)
 =====
 
 A lightweight and super fast Go tool for generating a simple http server. Mainly meant for use in prototyping and hackathons
@@ -30,6 +31,7 @@ Creating a dart and go HTTP server is as simple as:
 * Automatic DB setup (most liekly PSQL and MongoDB support)
 * Automatic status code correction
 * Automatic test file creation
+* Basic authorization cred setup
 * Interpretation of an existing go server and creating a dart reciever from this 
 * Support default http and dio mode in dart (through run flag)
 * GraphQL support 
@@ -57,14 +59,16 @@ Creating a dart and go HTTP server is as simple as:
 ## Restrictions
 Gets has no body 
 
-### Approach #1: Directly pass in csv file thropugh env file
+## Different Use Cases
 
+### Approach #1: Directly pass in csv file thropugh env file
+Here is where I would explain this. 
 
 ### Approach #2: Pass in csv file location thorugh cli argument 
-
+Here is where I would explain this. 
 
 ### Approach #3: Turn on interpretation flag and pass in main.go of the server
-
+Here is where I would explain this. 
 
 ## Development and contributing
 Feel free to send pull requests and raise issues.
@@ -76,3 +80,9 @@ Feel free to send pull requests and raise issues.
 ## FAQ
 
 ### none yet
+
+# License
+
+Copyright (c) 2022-present Peyton Thibodeaux
+
+Licensed under MIT License
