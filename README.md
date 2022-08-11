@@ -83,6 +83,6 @@ Feel free to send pull requests and raise issues.
 
 # License
 
-Copyright (c) 2015-present Peter Kieltyka
+Copyright (c) 2022-present Peyton Thibodeaux
 
 Licensed under MIT License
