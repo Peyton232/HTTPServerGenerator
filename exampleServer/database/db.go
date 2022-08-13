@@ -18,7 +18,7 @@ type DB struct {
 var mongoUri string = ""
 var mongoDb string = ""
 
-func Connect() (*DB, error) {
+func ConnectDB() (*DB, error) {
 	client, err := mongo.NewClient(options.Client().ApplyURI(mongoUri))
 	if err != nil {
 		log.Print("\nDB connection failed in database package")

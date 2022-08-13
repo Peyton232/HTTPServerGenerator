@@ -17,7 +17,7 @@ type Handler struct {
 func NewHandler() (*Handler, error) {
 	db, err := ConnectDB()
 	if err != nil {
-		return nil, err
+		// return nil, err
 	}
 
 	return &Handler{
