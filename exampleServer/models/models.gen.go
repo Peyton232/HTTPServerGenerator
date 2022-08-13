@@ -45,5 +45,11 @@ type FindPetsParams struct {
 // AddPetJSONBody defines parameters for AddPet.
 type AddPetJSONBody = NewPet
 
+// UpdatePetJSONBody defines parameters for UpdatePet.
+type UpdatePetJSONBody = Pet
+
 // AddPetJSONRequestBody defines body for AddPet for application/json ContentType.
 type AddPetJSONRequestBody = AddPetJSONBody
+
+// UpdatePetJSONRequestBody defines body for UpdatePet for application/json ContentType.
+type UpdatePetJSONRequestBody = UpdatePetJSONBody

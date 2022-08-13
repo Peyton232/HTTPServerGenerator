@@ -6,11 +6,7 @@ info:
   termsOfService: http://swagger.io/terms/
   contact:
     name: Swagger API Team
-    email: apiteam@swagger.io
-    url: http://swagger.io
-  license:
-    name: Apache 2.0
-    url: https://www.apache.org/licenses/LICENSE-2.0.html
+    email: apiteam@swagger.io   
 servers:
   - url: http://petstore.swagger.io/api
 paths:
@@ -65,6 +61,30 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/NewPet'
+      responses:
+        '200':
+          description: pet response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put: 
+      summary: Update an existing pet
+      description: Find a pet and update their data
+      operationId: updatePet
+      requestBody:
+        description: Pet to update
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pet'
       responses:
         '200':
           description: pet response
