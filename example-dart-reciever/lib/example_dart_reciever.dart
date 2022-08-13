@@ -3,7 +3,7 @@ import 'package:dio/dio.dart';
 
 void getPets() async {
   // try {
-    var response = await Dio().get('http://127.0.0.1:42069');
+    var response = await Dio().get('http://localhost:42069/pets');
     print(response);
   // } catch (e) {
   //   print(e);
