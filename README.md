@@ -19,7 +19,8 @@ Creating a dart and go HTTP server is as simple as:
 * None.
 
 ## Future Features
-* Passing in of a csv file to generate both dart reciever and go server
+* Passing in of an openapi YAML to generate both dart reciever and go server
+* generate openapi files as well as the basic integrations for business logic and chi router system 
 * Creation of custom dart and go models with 1 to 1 comparison 
 * Comments mirrored in each codebase 
 * Automatic restriction on illegal call types 
@@ -61,7 +62,7 @@ Gets has no body
 
 ## Different Use Cases
 
-### Approach #1: Directly pass in csv file thropugh env file
+### Approach #1: Directly pass in openAPI definition
 Here is where I would explain this. 
 
 ### Approach #2: Pass in csv file location thorugh cli argument 
