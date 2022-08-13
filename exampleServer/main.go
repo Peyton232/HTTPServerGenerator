@@ -1,26 +1,48 @@
 package main
 
 import (
-	"net/http"
+	"flag"
+	"fmt"
+	"os"
 
-	"github.com/go-chi/chi/v5"
-	"github.com/go-chi/chi/v5/middleware"
+	"github.com/Peyton232/HTTPServerGenerator/api"
+	"github.com/deepmap/oapi-codegen/pkg/middleware"
+	"github.com/labstack/echo/v4"
+	echomiddleware "github.com/labstack/echo/v4/middleware"
 )
 
+// change to env vars maybe
+var port int = 42069
+var host string = "localhost"
+
 func main() {
-	// setup of router
-	r := chi.NewRouter()
+	var port = flag.Int("port", port, "Port for test HTTP server")
+	flag.Parse()
 
-	// basic middleware, good start
-	r.Use(middleware.RequestID)
-	r.Use(middleware.Logger)
-	r.Use(middleware.Recoverer)
+	swagger, err := api.GetSwagger()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error loading swagger spec\n: %s", err)
+		os.Exit(1)
+	}
 
-	// basic get call TODO: move out into it's own directory
-	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("hello world"))
-	})
+	// Clear out the servers array in the swagger spec, that skips validating
+	// that server names match. We don't know how this thing will be run.
+	swagger.Servers = nil
 
-	// this port WILL be used in prod
-	http.ListenAndServe(":42069", r)
+	// Create an instance of our handler which satisfies the generated interface
+	petStore := api.NewPetStore()
+
+	// This is how you set up a basic Echo router
+	e := echo.New()
+	// Log all requests
+	e.Use(echomiddleware.Logger())
+	// Use our validation middleware to check all requests against the
+	// OpenAPI schema.
+	e.Use(middleware.OapiRequestValidator(swagger))
+
+	// We now register our petStore above as the handler for the interface
+	api.RegisterHandlers(e, petStore)
+
+	// And we serve HTTP until the world ends.
+	e.Logger.Fatal(e.Start(fmt.Sprintf(host+":%d", *port)))
 }
