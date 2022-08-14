@@ -16,7 +16,7 @@ import (
 	"github.com/deepmap/oapi-codegen/pkg/runtime"
 	"github.com/getkin/kin-openapi/openapi3"
 	"github.com/labstack/echo/v4"
-	. "github.com/Peyton232/HTTPServerGenerator/exampleServer/models"
+	. "github.com/Peyton232/HTTPServerGenerator-exampleServer/models"
 )
 
 // ServerInterface represents all server handlers.

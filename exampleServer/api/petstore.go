@@ -5,8 +5,8 @@ import (
 
 	"github.com/labstack/echo/v4"
 
-	. "github.com/Peyton232/HTTPServerGenerator/exampleServer/database"
-	"github.com/Peyton232/HTTPServerGenerator/exampleServer/models"
+	. "github.com/Peyton232/HTTPServerGenerator-exampleServer/database"
+	"github.com/Peyton232/HTTPServerGenerator-exampleServer/models"
 )
 
 type Handler struct {

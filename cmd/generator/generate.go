@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/deepmap/oapi-codegen/pkg/codegen"
+	"github.com/Peyton232/HTTPServerGenerator/pkg/codegen"
 )
 
 func errExit(format string, args ...interface{}) {
