@@ -1,8 +1,10 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"os"
+	"runtime/debug"
 
 	"github.com/Peyton232/HTTPServerGenerator/pkg/codegen"
 )
@@ -13,23 +15,10 @@ func errExit(format string, args ...interface{}) {
 }
 
 var (
-	flagOutputFile     string
-	flagConfigFile     string
-	flagOldConfigStyle bool
-	flagOutputConfig   bool
-	flagPrintVersion   bool
-	flagPackageName    string
-
-	// The options below are deprecated, and they will be removed in a future
-	// release. Please use the new config file format.
-	flagGenerate           string
-	flagIncludeTags        string
-	flagExcludeTags        string
-	flagTemplatesDir       string
-	flagImportMapping      string
-	flagExcludeSchemas     string
-	flagResponseTypeSuffix string
-	flagAliasTypes         bool
+	flagOutputDirec  string
+	flagConfigFile   string
+	flagPrintVersion bool
+	flagGenerateDB   bool
 )
 
 type configuration struct {
@@ -42,8 +31,30 @@ type configuration struct {
 //CMD
 // go generate github.com.peyton232/HTTPserverGenerator/cmd/generate -i=<pathToOpenAPISpec> o=<pathToRootOfProject> -[db Flag]
 func main() {
-	// get file path from input cmd
-	// get output path for repo root
+	// cmd flags
+	flag.StringVar(&flagOutputDirec, "o", "", "Where to output generated code")
+	flag.StringVar(&flagConfigFile, "config", "", "a YAML config file that controls oapi-codegen behavior")
+	flag.BoolVar(&flagPrintVersion, "version", false, "when specified, print version and exit")
+	flag.BoolVar(&flagGenerateDB, "database", true, "when specified generate db code")
+
+	flag.Parse()
+
+	if flagPrintVersion {
+		bi, ok := debug.ReadBuildInfo()
+		if !ok {
+			fmt.Fprintln(os.Stderr, "error reading build info")
+			os.Exit(1)
+		}
+		fmt.Println(bi.Main.Path + "/cmd/generator")
+		fmt.Println(bi.Main.Version)
+		return
+	}
+
+	if flag.NArg() < 1 {
+		fmt.Println("Please specify a path to a OpenAPI 3.0 spec file")
+		os.Exit(1)
+	}
+
 	// read in openAPI yaml file
 
 	// generate api and model config files
