@@ -1,7 +1,7 @@
 package: api
 output: ../api/petstore-server.gen.go
 additional-imports:
-  - package: github.com/Peyton232/HTTPServerGenerator/models
+  - package: github.com/Peyton232/HTTPServerGenerator/exampleServer/models
     alias: .
 generate:
   echo-server: true

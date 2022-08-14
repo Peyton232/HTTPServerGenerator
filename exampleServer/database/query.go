@@ -3,7 +3,7 @@ package database
 import (
 	"context"
 
-	"github.com/Peyton232/HTTPServerGenerator/models"
+	"github.com/Peyton232/HTTPServerGenerator/exampleServer/models"
 	"go.mongodb.org/mongo-driver/bson"
 )
 

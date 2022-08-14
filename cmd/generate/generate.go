@@ -1,5 +1,44 @@
 package main
 
+import (
+	"fmt"
+	"os"
+
+	"github.com/deepmap/oapi-codegen/pkg/codegen"
+)
+
+func errExit(format string, args ...interface{}) {
+	_, _ = fmt.Fprintf(os.Stderr, format, args...)
+	os.Exit(1)
+}
+
+var (
+	flagOutputFile     string
+	flagConfigFile     string
+	flagOldConfigStyle bool
+	flagOutputConfig   bool
+	flagPrintVersion   bool
+	flagPackageName    string
+
+	// The options below are deprecated, and they will be removed in a future
+	// release. Please use the new config file format.
+	flagGenerate           string
+	flagIncludeTags        string
+	flagExcludeTags        string
+	flagTemplatesDir       string
+	flagImportMapping      string
+	flagExcludeSchemas     string
+	flagResponseTypeSuffix string
+	flagAliasTypes         bool
+)
+
+type configuration struct {
+	codegen.Configuration `yaml:",inline"`
+
+	// OutputFile is the filename to output.
+	OutputFile string `yaml:"output,omitempty"`
+}
+
 //CMD
 // go generate github.com.peyton232/HTTPserverGenerator/cmd/generate -i=<pathToOpenAPISpec> o=<pathToRootOfProject> -[db Flag]
 func main() {

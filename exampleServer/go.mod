@@ -1,4 +1,4 @@
-module github.com/Peyton232/HTTPServerGenerator
+module github.com/Peyton232/HTTPServerGenerator/exampleServer
 
 go 1.17
 
