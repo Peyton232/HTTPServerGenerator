@@ -12,7 +12,9 @@ type AdditionalImport struct {
 
 // Configuration defines code generation customizations
 type Configuration struct {
-	PackageName       string               `yaml:"package"` // PackageName to generate
+	ProjectName       string               `yaml:"project-name"` // Project name to generate
+	PackageName       string               `yaml:"package"`      // PackageName to generate
+	Name              string               `yaml:"package"`
 	Generate          GenerateOptions      `yaml:"generate,omitempty"`
 	Compatibility     CompatibilityOptions `yaml:"compatibility,omitempty"`
 	OutputOptions     OutputOptions        `yaml:"output-options,omitempty"`
@@ -92,8 +94,8 @@ func (o Configuration) UpdateDefaults() Configuration {
 
 // Validate checks whether Configuration represent a valid configuration
 func (o Configuration) Validate() error {
-	if o.PackageName == "" {
-		return errors.New("package name must be specified")
+	if o.ProjectName == "" {
+		return errors.New("project name name must be specified")
 	}
 
 	// Only one server type should be specified at a time.

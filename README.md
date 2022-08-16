@@ -81,9 +81,3 @@ Feel free to send pull requests and raise issues.
 ## FAQ
 
 ### none yet
-
-# License
-
-Copyright (c) 2022-present Peyton Thibodeaux
-
-Licensed under MIT License
