@@ -80,6 +80,35 @@ func constructImportMapping(importMapping map[string]string) importMap {
 	return result
 }
 
+// GenerateCommands is a very simple function to create a basic generation file
+// mostly hard coded for now
+// TODO research if this would benefit from modularization
+// TODO make template have a persist state so setup does not need to be ran again
+func GenerateCommands() (string, error) {
+	// This creates the golang templates text package
+	TemplateFunctions["opts"] = func() Configuration { return globalState.options }
+	t := template.New("oapi-codegen").Funcs(TemplateFunctions)
+
+	// This parses all of our own template files into the template object
+	// above
+	err := LoadTemplates(templates, t)
+	if err != nil {
+		return "", fmt.Errorf("error parsing oapi-codegen templates: %w", err)
+	}
+
+	ops, err := OperationDefinitions(&openapi3.T{})
+	if err != nil {
+		return "", fmt.Errorf("error creating operation definitions: %w", err)
+	}
+
+	genGoOut, err := GenerateGoGen(t, ops)
+	if err != nil {
+		return "", fmt.Errorf("error generating Go handlers for Paths: %w", err)
+	}
+
+	return genGoOut, nil
+}
+
 // Generate uses the Go templating engine to generate all of our server wrappers from
 // the descriptions we've built up above from the schema objects.
 // opts defines

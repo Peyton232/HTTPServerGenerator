@@ -41,6 +41,8 @@ type configuration struct {
 
 	// OutputDirec is where the root of the project will be generated
 	OutputDirec string `yaml:"output,omitempty"`
+
+	yamlPath string
 }
 
 // CMD
@@ -99,13 +101,12 @@ func main() {
 	if err != nil {
 		errExit("error writing generated code to file: %s", err)
 	}
-
 	err = ioutil.WriteFile("./api/api.gen.go", []byte(serverCode), 0644)
 	if err != nil {
 		errExit("error writing generated code to file: %s", err)
 	}
 
-	// TODO generate spec folder and generation commands
+	// Generate spec folder and generation commands
 	opts.specGeneration()
 
 	//TODO generate main
@@ -132,18 +133,23 @@ func printVersion() {
 }
 
 func readConfig(opts *configuration) error {
-	if flagConfigFile != "" {
-		buf, err := ioutil.ReadFile(flagConfigFile)
-		if err != nil {
-			return fmt.Errorf("error reading config file '%s': %v", flagConfigFile, err)
-		}
-		err = yaml.Unmarshal(buf, &opts)
-		if err != nil {
-			return fmt.Errorf("error parsing'%s' as YAML: %v", flagConfigFile, err)
-		}
-		return nil
+	if flagConfigFile == "" {
+		return fmt.Errorf("no config file proovided")
 	}
-	return fmt.Errorf("no config file proovided")
+
+	buf, err := ioutil.ReadFile(flagConfigFile)
+	if err != nil {
+		return fmt.Errorf("error reading config file '%s': %v", flagConfigFile, err)
+	}
+	err = yaml.Unmarshal(buf, &opts)
+	if err != nil {
+		return fmt.Errorf("error parsing'%s' as YAML: %v", flagConfigFile, err)
+	}
+
+	// save yaml path for later
+	opts.yamlPath, _ = filepath.Abs(flag.Arg(0))
+
+	return nil
 }
 
 func (opts *configuration) GenerateCode() (modelCode string, serverCode string, err error) {
@@ -206,12 +212,29 @@ func (opts *configuration) specGeneration() error {
 	}
 
 	// cp yaml spec file into this direc
+	script.Exec("cp " + opts.yamlPath + " ./spec/spec.yaml").Stdout()
 
-	// generate mdoel yaml
+	// generate model yaml
+	modelsConfigYaml, _ := yaml.Marshal(&MODELS_CONFIG)
+	err = ioutil.WriteFile("./spec/modelsConfig.yaml", modelsConfigYaml, 0644)
+	if err != nil {
+		return fmt.Errorf("error writing modelsConfig.yaml to file: %s", err)
+	}
 
-	// generate serve yaml
+	// generate api yaml
+	apiConfigYaml, _ := yaml.Marshal(&API_CONFIG)
+	err = ioutil.WriteFile("./spec/apiConfig.yaml", apiConfigYaml, 0644)
+	if err != nil {
+		return fmt.Errorf("error writing apiConfig.yaml to file: %s", err)
+	}
 
 	// generate file with commands to call generation commands
+	genCode, _ := codegen.GenerateCommands()
+	err = ioutil.WriteFile("./spec/gen.go", []byte(genCode), 0644)
+	if err != nil {
+		return fmt.Errorf("error writing gen.go to spec directory: %s", err)
+	}
 
+	// TODO these commands don't work
 	return nil
 }
