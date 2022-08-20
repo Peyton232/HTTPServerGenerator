@@ -111,6 +111,7 @@ func main() {
 	//TODO generate handlers
 
 	//TODO generate main
+	opts.mainGeneration()
 
 	// cleanup go errors
 	script.Exec("go get -u ./...").Wait()
@@ -235,5 +236,16 @@ func (opts *configuration) specGeneration() error {
 	}
 
 	// TODO these commands don't work
+	return nil
+}
+
+func (opts *configuration) mainGeneration() error {
+	// generate file with commands to call generation commands
+	mainCode, _ := codegen.GenerateMain(opts.Configuration)
+	err := os.WriteFile("./main.go", []byte(mainCode), 0644)
+	if err != nil {
+		return fmt.Errorf("error writing gen.go to spec directory: %s", err)
+	}
+
 	return nil
 }

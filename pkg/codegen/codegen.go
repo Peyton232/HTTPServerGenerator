@@ -109,6 +109,31 @@ func GenerateCommands() (string, error) {
 	return genGoOut, nil
 }
 
+func GenerateMain(opts Configuration) (string, error) {
+	// This creates the golang templates text package
+	TemplateFunctions["opts"] = func() Configuration { return globalState.options }
+	t := template.New("oapi-codegen").Funcs(TemplateFunctions)
+
+	// This parses all of our own template files into the template object
+	// above
+	err := LoadTemplates(templates, t)
+	if err != nil {
+		return "", fmt.Errorf("error parsing oapi-codegen templates: %w", err)
+	}
+
+	var buf bytes.Buffer
+	w := bufio.NewWriter(&buf)
+	tmpl := "echo/echo-main.tmpl" //TODO change this based on config
+	if err := t.ExecuteTemplate(w, tmpl, opts); err != nil {
+		return "", fmt.Errorf("error generating %s: %s", tmpl, err)
+	}
+	if err := w.Flush(); err != nil {
+		return "", fmt.Errorf("error flushing output buffer for %s: %s", tmpl, err)
+	}
+
+	return buf.String(), nil
+}
+
 // Generate uses the Go templating engine to generate all of our server wrappers from
 // the descriptions we've built up above from the schema objects.
 // opts defines
