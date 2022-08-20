@@ -14,6 +14,15 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
+var MODELS_CONFIG codegen.Configuration = codegen.Configuration{
+	PackageName: "models",
+	Generate: codegen.GenerateOptions{
+		Models: true,
+	},
+}
+
+var API_CONFIG codegen.Configuration = codegen.Configuration{}
+
 func errExit(format string, args ...interface{}) {
 	_, _ = fmt.Fprintf(os.Stderr, format, args...)
 	os.Exit(1)
@@ -96,7 +105,8 @@ func main() {
 		errExit("error writing generated code to file: %s", err)
 	}
 
-	// TODO generate spec folder and generation
+	// TODO generate spec folder and generation commands
+	opts.specGeneration()
 
 	//TODO generate main
 
@@ -143,12 +153,7 @@ func (opts *configuration) GenerateCode() (modelCode string, serverCode string, 
 	}
 
 	// Get model code
-	modelCode, err = codegen.Generate(swagger, codegen.Configuration{
-		PackageName: "models",
-		Generate: codegen.GenerateOptions{
-			Models: true,
-		},
-	})
+	modelCode, err = codegen.Generate(swagger, MODELS_CONFIG)
 	if err != nil {
 		return "", "", fmt.Errorf("error generating model code: %s", err)
 	}
@@ -156,6 +161,7 @@ func (opts *configuration) GenerateCode() (modelCode string, serverCode string, 
 	// Get server code
 	opts.Configuration.PackageName = "api"
 	opts.Configuration.AdditionalImports = append(opts.Configuration.AdditionalImports, codegen.AdditionalImport{Alias: ".", Package: opts.ProjectName + "/models"}) //TODO this is confusing
+	API_CONFIG = opts.Configuration
 	serverCode, err = codegen.Generate(swagger, opts.Configuration)
 	if err != nil {
 		return "", "", fmt.Errorf("error generating server code: %s", err)
@@ -189,6 +195,23 @@ func (opts *configuration) InitializeProject() error {
 	if err != nil {
 		return fmt.Errorf("error creating api directory of project: %s", err)
 	}
+
+	return nil
+}
+
+func (opts *configuration) specGeneration() error {
+	err := os.MkdirAll("spec", os.ModePerm)
+	if err != nil {
+		return fmt.Errorf("error making spec directory: %s", err)
+	}
+
+	// cp yaml spec file into this direc
+
+	// generate mdoel yaml
+
+	// generate serve yaml
+
+	// generate file with commands to call generation commands
 
 	return nil
 }
