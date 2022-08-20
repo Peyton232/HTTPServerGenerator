@@ -5,9 +5,11 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"path/filepath"
 	"runtime/debug"
 
 	"github.com/Peyton232/HTTPServerGenerator/pkg/codegen"
+	"github.com/bitfield/script"
 	"github.com/deepmap/oapi-codegen/pkg/util"
 	"gopkg.in/yaml.v3"
 )
@@ -77,7 +79,8 @@ func main() {
 	// fields.
 	opts.Configuration = opts.UpdateDefaults()
 
-	fmt.Println(opts.ProjectName)
+	// TODO make an output direc interpreter
+	opts.OutputDirec = "../"
 
 	// Now, ensure that the config options are valid.
 	if err := opts.Validate(); err != nil {
@@ -89,13 +92,12 @@ func main() {
 		errExit("error loading swagger spec in %s\n: %s", flag.Arg(0), err)
 	}
 
-	// Get server code
+	// Get model code
 	modelCode, err := codegen.Generate(swagger, codegen.Configuration{
 		PackageName: "models",
 		Generate: codegen.GenerateOptions{
 			Models: true,
 		},
-		// output: ../models/models.gen.go
 	})
 	if err != nil {
 		errExit("error generating model code: %s\n", err)
@@ -103,22 +105,64 @@ func main() {
 
 	// Get model code
 	opts.Configuration.PackageName = "api"
-	opts.Configuration.AdditionalImports = append(opts.Configuration.AdditionalImports, codegen.AdditionalImport{Alias: ".", Package: opts.ProjectName + "/models/models.gen.go"})
+	opts.Configuration.AdditionalImports = append(opts.Configuration.AdditionalImports, codegen.AdditionalImport{Alias: ".", Package: opts.ProjectName + "/models"})
 	serverCode, err := codegen.Generate(swagger, opts.Configuration)
 	// output: ../api/petstore-server.gen.go
 	if err != nil {
 		errExit("error generating server code: %s\n", err)
 	}
 
-	err = ioutil.WriteFile(opts.Name+"/models/models.gen.go", []byte(modelCode), 0644)
+	//setup root direc
+	newpath := filepath.Join(opts.OutputDirec, opts.RootName)
+	err = os.MkdirAll(newpath, os.ModePerm)
+	if err != nil {
+		errExit("error generating root directory: %s\n", err)
+	}
+
+	//TODO generate go mod and sum
+	os.Chdir(opts.OutputDirec + opts.RootName)
+	pipe := script.Exec("ls -lah")
+	pipe.Stdout()
+
+	pipe = script.Exec("go mod init " + opts.ProjectName)
+	pipe.Stdout()
+
+	pipe = script.Exec("go mod tidy")
+	pipe.Stdout()
+
+	//setup file direcs
+	newpath = filepath.Join("./models")
+	err = os.MkdirAll(newpath, os.ModePerm)
+	if err != nil {
+		errExit("error generating models directory: %s\n", err)
+	}
+
+	newpath = filepath.Join("./api")
+	err = os.MkdirAll(newpath, os.ModePerm)
+	if err != nil {
+		errExit("error generating api directory: %s\n", err)
+	}
+
+	// write contents fo files
+	err = ioutil.WriteFile("./models/models.gen.go", []byte(modelCode), 0644)
 	if err != nil {
 		errExit("error writing generated code to file: %s", err)
 	}
 
-	err = ioutil.WriteFile(opts.Name+"/api/api.gen.go", []byte(serverCode), 0644)
+	err = ioutil.WriteFile("./api/api.gen.go", []byte(serverCode), 0644)
 	if err != nil {
 		errExit("error writing generated code to file: %s", err)
 	}
+
+	// TODO generate spec folder and generation
+
+	//TODO generate main
+
+	//TODO generate handlers
+
+	// cleanup
+	script.Exec("go get -u ./...").Wait()
+	script.Exec("go mod tidy").Wait()
 
 	// read in types and seperate by id/name types
 	// call DB generator with supplied types

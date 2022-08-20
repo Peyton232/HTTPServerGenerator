@@ -1,5 +1,5 @@
 project-name: github.com/Peyton232/test
-name: test
+root-name: test
 generate:
   echo-server: true
   embedded-spec: true

@@ -14,7 +14,8 @@ type AdditionalImport struct {
 type Configuration struct {
 	ProjectName       string               `yaml:"project-name"` // Project name to generate
 	PackageName       string               `yaml:"package"`      // PackageName to generate
-	Name              string               `yaml:"package"`
+	RootName          string               `yaml:"root-name"`
+	OutputDirec       string               `yaml:"output-direc"`
 	Generate          GenerateOptions      `yaml:"generate,omitempty"`
 	Compatibility     CompatibilityOptions `yaml:"compatibility,omitempty"`
 	OutputOptions     OutputOptions        `yaml:"output-options,omitempty"`
@@ -82,12 +83,14 @@ type OutputOptions struct {
 
 // UpdateDefaults sets reasonable default values for unset fields in Configuration
 func (o Configuration) UpdateDefaults() Configuration {
+
 	if reflect.ValueOf(o.Generate).IsZero() {
 		o.Generate = GenerateOptions{
 			EchoServer:   true,
 			Models:       true,
 			EmbeddedSpec: true,
 		}
+		o.OutputDirec = "../"
 	}
 	return o
 }
