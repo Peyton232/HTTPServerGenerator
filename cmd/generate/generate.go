@@ -9,8 +9,8 @@ import (
 	"runtime/debug"
 
 	"github.com/Peyton232/HTTPServerGenerator/pkg/codegen"
+	"github.com/Peyton232/HTTPServerGenerator/pkg/util"
 	"github.com/bitfield/script"
-	"github.com/deepmap/oapi-codegen/pkg/util"
 	"gopkg.in/yaml.v3"
 )
 
@@ -43,17 +43,10 @@ func main() {
 	flag.BoolVar(&flagPrintVersion, "version", false, "when specified, print version and exit")
 	flag.BoolVar(&flagGenerateDB, "database", true, "when specified generate db code") //TODO make this modular and a call for it in generations of new project
 	flag.StringVar(&flagPackageName, "package", "", "The package name for generated code")
-
 	flag.Parse()
 
 	if flagPrintVersion {
-		bi, ok := debug.ReadBuildInfo()
-		if !ok {
-			fmt.Fprintln(os.Stderr, "error reading build info")
-			os.Exit(1)
-		}
-		fmt.Println(bi.Main.Path + "/cmd/generator")
-		fmt.Println(bi.Main.Version)
+		printVersion()
 		return
 	}
 
@@ -64,19 +57,12 @@ func main() {
 
 	// Read in config file from disk
 	var opts configuration
-	if flagConfigFile != "" {
-		buf, err := ioutil.ReadFile(flagConfigFile)
-		if err != nil {
-			errExit("error reading config file '%s': %v", flagConfigFile, err)
-		}
-		err = yaml.Unmarshal(buf, &opts)
-		if err != nil {
-			errExit("error parsing'%s' as YAML: %v", flagConfigFile, err)
-		}
+	err := readConfig(&opts)
+	if err != nil {
+		errExit("config error: %v", err)
 	}
 
-	// Ensure default values are set if user hasn't specified some needed
-	// fields.
+	// Ensure default values are set if user hasn't specified some needed fields.
 	opts.Configuration = opts.UpdateDefaults()
 
 	// TODO make an output direc interpreter
@@ -87,60 +73,16 @@ func main() {
 		errExit("configuration error: %v", err)
 	}
 
-	swagger, err := util.LoadSwagger(flag.Arg(0))
+	// Generate code
+	modelCode, serverCode, err := opts.GenerateCode()
 	if err != nil {
-		errExit("error loading swagger spec in %s\n: %s", flag.Arg(0), err)
+		errExit("generation error: %v", err)
 	}
 
-	// Get model code
-	modelCode, err := codegen.Generate(swagger, codegen.Configuration{
-		PackageName: "models",
-		Generate: codegen.GenerateOptions{
-			Models: true,
-		},
-	})
+	//setup go project
+	err = opts.InitializeProject()
 	if err != nil {
-		errExit("error generating model code: %s\n", err)
-	}
-
-	// Get model code
-	opts.Configuration.PackageName = "api"
-	opts.Configuration.AdditionalImports = append(opts.Configuration.AdditionalImports, codegen.AdditionalImport{Alias: ".", Package: opts.ProjectName + "/models"})
-	serverCode, err := codegen.Generate(swagger, opts.Configuration)
-	// output: ../api/petstore-server.gen.go
-	if err != nil {
-		errExit("error generating server code: %s\n", err)
-	}
-
-	//setup root direc
-	newpath := filepath.Join(opts.OutputDirec, opts.RootName)
-	err = os.MkdirAll(newpath, os.ModePerm)
-	if err != nil {
-		errExit("error generating root directory: %s\n", err)
-	}
-
-	//TODO generate go mod and sum
-	os.Chdir(opts.OutputDirec + opts.RootName)
-	pipe := script.Exec("ls -lah")
-	pipe.Stdout()
-
-	pipe = script.Exec("go mod init " + opts.ProjectName)
-	pipe.Stdout()
-
-	pipe = script.Exec("go mod tidy")
-	pipe.Stdout()
-
-	//setup file direcs
-	newpath = filepath.Join("./models")
-	err = os.MkdirAll(newpath, os.ModePerm)
-	if err != nil {
-		errExit("error generating models directory: %s\n", err)
-	}
-
-	newpath = filepath.Join("./api")
-	err = os.MkdirAll(newpath, os.ModePerm)
-	if err != nil {
-		errExit("error generating api directory: %s\n", err)
+		errExit("setup error: %v", err)
 	}
 
 	// write contents fo files
@@ -167,4 +109,86 @@ func main() {
 	// read in types and seperate by id/name types
 	// call DB generator with supplied types
 	// same issue with handler generation
+}
+
+func printVersion() {
+	bi, ok := debug.ReadBuildInfo()
+	if !ok {
+		fmt.Fprintln(os.Stderr, "error reading build info")
+		os.Exit(1)
+	}
+	fmt.Println(bi.Main.Path + "/cmd/generator")
+	fmt.Println(bi.Main.Version)
+}
+
+func readConfig(opts *configuration) error {
+	if flagConfigFile != "" {
+		buf, err := ioutil.ReadFile(flagConfigFile)
+		if err != nil {
+			return fmt.Errorf("error reading config file '%s': %v", flagConfigFile, err)
+		}
+		err = yaml.Unmarshal(buf, &opts)
+		if err != nil {
+			return fmt.Errorf("error parsing'%s' as YAML: %v", flagConfigFile, err)
+		}
+		return nil
+	}
+	return fmt.Errorf("no config file proovided")
+}
+
+func (opts *configuration) GenerateCode() (modelCode string, serverCode string, err error) {
+	swagger, err := util.LoadSwagger(flag.Arg(0))
+	if err != nil {
+		return "", "", fmt.Errorf("error loading swagger spec in %s\n: %s", flag.Arg(0), err)
+	}
+
+	// Get model code
+	modelCode, err = codegen.Generate(swagger, codegen.Configuration{
+		PackageName: "models",
+		Generate: codegen.GenerateOptions{
+			Models: true,
+		},
+	})
+	if err != nil {
+		return "", "", fmt.Errorf("error generating model code: %s", err)
+	}
+
+	// Get server code
+	opts.Configuration.PackageName = "api"
+	opts.Configuration.AdditionalImports = append(opts.Configuration.AdditionalImports, codegen.AdditionalImport{Alias: ".", Package: opts.ProjectName + "/models"}) //TODO this is confusing
+	serverCode, err = codegen.Generate(swagger, opts.Configuration)
+	if err != nil {
+		return "", "", fmt.Errorf("error generating server code: %s", err)
+
+	}
+
+	return modelCode, serverCode, nil
+}
+
+func (opts *configuration) InitializeProject() error {
+	newPath := filepath.Join(opts.OutputDirec, opts.RootName)
+	err := os.MkdirAll(newPath, os.ModePerm)
+	if err != nil {
+		return fmt.Errorf("error creating root directory of project: %s", err)
+	}
+
+	//TODO add error checking
+	os.Chdir(opts.OutputDirec + opts.RootName)
+	script.Exec("go mod init " + opts.ProjectName).Wait()
+	script.Exec("go mod tidy").Wait()
+
+	// setup file direcs
+	newPath = filepath.Join("./models")
+	err = os.MkdirAll(newPath, os.ModePerm)
+	if err != nil {
+		return fmt.Errorf("error creating models directory of project: %s", err)
+	}
+
+	newPath = filepath.Join("./api")
+	err = os.MkdirAll(newPath, os.ModePerm)
+	if err != nil {
+		return fmt.Errorf("error creating api directory of project: %s", err)
+	}
+
+	return nil
 }
