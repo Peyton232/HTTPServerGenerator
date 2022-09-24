@@ -3,5 +3,6 @@ import 'package:test/test.dart';
 
 void main() async {
 
-  getPets();
+  var resp = getPets();
+  // TODO test resp
 }

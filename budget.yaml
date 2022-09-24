@@ -1,0 +1,906 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: TodoBudget
+  description: API for Todo Budget app
+  termsOfService: http://swagger.io/terms/
+  contact:
+    name: Swagger API Team
+    email: apiteam@swagger.io   
+servers:
+  - url: http://todobudget.swagger.io/api
+paths:
+  /users:
+    get:
+      summary: returns all users
+      description: Returns all users from the system that the user has access to
+      operationId: findUsers
+      parameters:
+        - name: limit
+          in: query
+          description: maximum number of results to return
+          required: false
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: user response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      summary: Creates a new User
+      description: Creates a new user in the datbase. Duplicates are allowed
+      operationId: addUser
+      requestBody:
+        description: user to add to the store
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: user response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put: 
+      summary: Update an existing user
+      description: Find a user and update their data
+      operationId: updateUser
+      requestBody:
+        description: User to update
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: user response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /users/{id}:
+    get:
+      summary: Returns a user by ID
+      description: Returns a user based on a single ID
+      operationId: findUserByID
+      parameters:
+        - name: id
+          in: path
+          description: ID of user to fetch
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: user response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      summary: Deletes a user by ID
+      description: deletes a single user based on the ID supplied
+      operationId: deleteUser
+      parameters:
+        - name: id
+          in: path
+          description: ID of user to delete
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: user deleted
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /users/{id}/buckets:
+    get:
+      summary: returns all of this users buckets
+      description: Returns all buckets from a specific user
+      operationId: findBuckets
+      parameters:
+        - name: id
+          in: path
+          description: user id
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: user response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Bucket'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      summary: Creates a new Bucket
+      description: Creates a new bucket for a user
+      operationId: addBucket
+      parameters:
+        - name: id
+          in: path
+          description: user id
+          required: true
+          schema:
+            type: integer
+            format: int32
+      requestBody:
+        description: bucket to add to the store
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Bucket'
+      responses:
+        '200':
+          description: bucket response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Bucket'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put: 
+      summary: Update an existing bucket
+      description: Find a user and update their data
+      operationId: updateBucket
+      parameters:
+        - name: id
+          in: path
+          description: user id
+          required: true
+          schema:
+            type: integer
+            format: int32
+      requestBody:
+        description: Bucket to update
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Bucket'
+      responses:
+        '200':
+          description: user response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Bucket'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /users/{id}/buckets/{name}:
+    get:
+      summary: Returns a bucket by name
+      description: Returns a bucket based on a name
+      operationId: findBucketByName
+      parameters:
+        - name: id
+          in: path
+          description: user id
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: name
+          in: path
+          description: name of bucket to fetch
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: bucket response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Bucket'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      summary: Deletes a bucket by name
+      description: deletes a single bucket based on the name supplied
+      operationId: deleteBucket
+      parameters:
+        - name: id
+          in: path
+          description: ID of user to delete
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: name
+          in: path
+          description: name of bucket to fetch
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: bucket deleted
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /users/{id}/buckets/{name}/transactions:
+    get: 
+      summary: get transactions
+      description: get transactions
+      operationId: getTransactions
+      parameters:
+          - name: id
+            in: path
+            description: ID of user
+            required: true
+            schema:
+              type: integer
+              format: int64
+          - name: name
+            in: path
+            description: name of bucket
+            required: true
+            schema:
+              type: string
+      responses:
+        '200':
+          description: transaction response
+          content:
+            application/json:
+              type: array
+              items:
+                schema:
+                  $ref: '#/components/schemas/Transaction'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      summary: Inserts a new transaction
+      description: insert new transaction
+      operationId: insertTransaction
+      parameters:
+          - name: id
+            in: path
+            description: ID of user
+            required: true
+            schema:
+              type: integer
+              format: int64
+          - name: name
+            in: path
+            description: name of bucket
+            required: true
+            schema:
+              type: string
+      requestBody:
+        description: transaction to add to the user
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Transaction'
+      responses:
+        '200':
+          description: transaction response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transaction'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put: 
+      summary: update a transaction
+      description: update a transaction
+      operationId: updateTransaction
+      parameters:
+          - name: id
+            in: path
+            description: ID of user
+            required: true
+            schema:
+              type: integer
+              format: int64
+          - name: name
+            in: path
+            description: name of bucket
+            required: true
+            schema:
+              type: string
+      responses:
+        '200':
+          description: transaction response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transaction'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /users/{id}/buckets/{name}/transactions/{timestamp}:
+    get: 
+      summary: get a transaction by timestamp
+      description: get a transaction by timestamp
+      operationId: getTransaction
+      parameters:
+          - name: id
+            in: path
+            description: ID of user
+            required: true
+            schema:
+              type: integer
+              format: int64
+          - name: name
+            in: path
+            description: name of bucket
+            required: true
+            schema:
+              type: string
+          - name: timestamp
+            in: path
+            description: timestamp of transaction
+            required: true
+            schema:
+              type: string
+      responses:
+        '200':
+          description: transaction response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transaction'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete: 
+      summary: delete a transaction
+      description: delete a transaction
+      operationId: deeleteTransaction
+      parameters:
+          - name: id
+            in: path
+            description: ID of user
+            required: true
+            schema:
+              type: integer
+              format: int64
+          - name: name
+            in: path
+            description: name of bucket
+            required: true
+            schema:
+              type: string
+          - name: timestamp
+            in: path
+            description: timestamp of transaction
+            required: true
+            schema:
+              type: string
+      responses:
+        '200':
+          description: transaction response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transaction'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /users/{id}/Achievements/:
+    get:
+      summary: get all Achievements
+      description: get all Achievements
+      operationId: getAchievements
+      parameters:
+          - name: id
+            in: path
+            description: ID of user
+            required: true
+            schema:
+              type: integer
+              format: int64
+      responses:
+        '200':
+          description: achievements response
+          content:
+            application/json:
+              type: array
+              items:
+                schema:
+                  $ref: '#/components/schemas/Achievement'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      summary: add new Achievements
+      description: post new Achievements
+      operationId: addAchievements
+      parameters:
+          - name: id
+            in: path
+            description: ID of user
+            required: true
+            schema:
+              type: integer
+              format: int64
+      requestBody:
+        description: Achievements to add to the user
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Achievement'
+      responses:
+        '200':
+          description: achievements response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Achievement'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      summary: update Achievement
+      description: update an Achievement
+      operationId: updateAchievements
+      parameters:
+          - name: id
+            in: path
+            description: ID of user
+            required: true
+            schema:
+              type: integer
+              format: int64
+      requestBody:
+        description: Achievements to update on the user
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Achievement'
+      responses:
+        '200':
+          description: achievements response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Achievement'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /users/{id}/Achievements/{name}:
+    get:
+      summary: get an Achievement by name
+      description: get an Achievement
+      operationId: getAchievement
+      parameters:
+          - name: id
+            in: path
+            description: ID of user
+            required: true
+            schema:
+              type: integer
+              format: int64
+          - name: name
+            in: path
+            description: name of Achievement
+            required: true
+            schema:
+              type: string
+      responses:
+        '200':
+          description: achievements response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Achievement'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error' 
+    delete:
+      summary: delete an Achievement by name
+      description: delete an Achievement
+      operationId: deleteAchievement
+      parameters:
+          - name: id
+            in: path
+            description: ID of user
+            required: true
+            schema:
+              type: integer
+              format: int64
+          - name: name
+            in: path
+            description: name of Achievement
+            required: true
+            schema:
+              type: string
+      responses:
+        '200':
+          description: achievements response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Achievement'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error' 
+  /users/{id}/alerts:
+    get:
+      summary: get alerts
+      description: show alerts
+      operationId: getAlerts
+      parameters:
+          - name: id
+            in: path
+            description: ID of user
+            required: true
+            schema:
+              type: integer
+              format: int64
+      responses:
+        '200':
+          description: alert response
+          content:
+            application/json:
+              type: array
+              items:
+                schema:
+                  $ref: '#/components/schemas/Alert'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      summary: insert new alert
+      description: insert new alert
+      operationId: addAlert
+      parameters:
+          - name: id
+            in: path
+            description: ID of user
+            required: true
+            schema:
+              type: integer
+              format: int64
+      requestBody:
+        description: Alert to add to the user
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Alert'
+      responses:
+        '200':
+          description: alert response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Alert'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      summary: update an alert
+      description: update an alert
+      operationId: updateAlert
+      parameters:
+          - name: id
+            in: path
+            description: ID of user
+            required: true
+            schema:
+              type: integer
+              format: int64
+      requestBody:
+        description: Alert to update on the user
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Alert'
+      responses:
+        '200':
+          description: alert response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Alert'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /users/{id}/alerts/{name}:
+    get:
+      summary: delete an alert by name
+      description: delete an alert
+      operationId: getAlert
+      parameters:
+          - name: id
+            in: path
+            description: ID of user
+            required: true
+            schema:
+              type: integer
+              format: int64
+          - name: name
+            in: path
+            description: name of alert
+            required: true
+            schema:
+              type: string
+      responses:
+        '200':
+          description: alert response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Alert'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      summary: delete an Achievement by name
+      description: delete an Achievement
+      operationId: deleteAlert
+      parameters:
+          - name: id
+            in: path
+            description: ID of user
+            required: true
+            schema:
+              type: integer
+              format: int64
+          - name: name
+            in: path
+            description: name of alert
+            required: true
+            schema:
+              type: string
+      responses:
+        '200':
+          description: alert response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Alert'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    User:
+      allOf:
+        - required:
+          - id
+          - profile
+          properties:
+            id:
+              type: integer
+              format: int32
+              description: Unique id of the user
+            profile:
+              $ref: '#/components/schemas/Profile'
+              description: Profile information
+            timeFrame:
+              type: string
+              description: Type of time frame (default monthly) 
+            buckets:
+              type: array
+              items:
+                $ref: '#/components/schemas/Bucket'
+            achievements:
+              type: array
+              items:
+                $ref: '#/components/schemas/Achievement'
+            alerts:
+              type: array
+              items:
+                $ref: '#/components/schemas/Alert'
+
+    Profile:
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: Name of the user
+        monthlySalary:
+          type: integer
+          description: amount of money made per month
+        insultLevel:
+          type: integer
+          description: level of insults
+        financialKnowledgeLevel:
+          type: integer
+          description: how smarticles the user in
+        happinessLevel: 
+          type: integer
+          description: how good the user is doing
+
+    Bucket:
+      required:
+        - name
+        - total
+        - amount
+      properties:
+        name:
+          type: string
+          description: Name of the bucket 
+        total:
+          type: number
+          multipleOf: 0.01
+          description: total amount of this bucket
+        amount:
+          type: number
+          multipleOf: 0.01
+          description: current amount in the bucket so far
+        history:
+          type: array
+          items:  
+            $ref: '#/components/schemas/Transaction'
+        overflowm: 
+          type: boolean
+          description: has this bucket overflown
+        rule:
+          type: string
+          description: literally magic
+
+    Transaction:
+      required:
+        - timestamp
+      properties:
+        timestamp:
+          type: string
+          description: timestamp of transaction
+        amount:
+          type: number
+          multipleOf: 0.01
+          description: amount of the transaction
+        expense: 
+          type: boolean
+          description: if this is an expesne or not
+        description:
+          type: string
+          description: human readable explanation of transaction
+
+    Achievement:
+      required:
+        - name
+      properties:
+        name: 
+          type: string
+        achieved:
+          type: boolean
+          description: has this been achieved
+        rewardAmount:
+          type: number
+          multipleOf: 0.01
+        rewardMessage:
+          type: string
+    Alert: 
+      required:
+        - message
+      properties:
+        message:
+          type: string
+        deterant:
+          type: string
+
+    Error:
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+          description: Error code
+        message:
+          type: string
+          description: Error message

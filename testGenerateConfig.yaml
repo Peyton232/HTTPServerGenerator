@@ -1,5 +1,5 @@
-project-name: github.com/Peyton232/test
-root-name: test
+project-name: github.com/Peyton232/todo
+root-name: todo
 generate:
-  echo-server: true
+  chi-server: true
   embedded-spec: true

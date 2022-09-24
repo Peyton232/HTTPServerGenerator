@@ -120,6 +120,7 @@ func main() {
 	// read in types and seperate by id/name types
 	// call DB generator with supplied types
 	// same issue with handler generation
+	// TODO for all file writing check for existing file before overwriting
 }
 
 func printVersion() {

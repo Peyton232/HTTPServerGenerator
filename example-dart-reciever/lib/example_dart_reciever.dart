@@ -1,17 +1,18 @@
-
 import 'package:dio/dio.dart';
 
-void getPets() async {
+String host = "http://localhost:42069";
+
+dynamic getPets() async {
   try {
     var response = await Dio().get(
-      'http://localhost:42069/pets',
+      host + "/pets",
       // options: Options(
       //     //will not throw errors
       //     validateStatus: (status) => true,
       //   ),
       );
-    print(response);
+    return response.data;
   } catch (e) {
-    print(e);
+    return e.toString();
   }
 }

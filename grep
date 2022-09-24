@@ -1,0 +1,150 @@
+ 1000  clear
+ 1001  go run cmd/generate/generate.go --config=budget/yaml
+ 1002  go run cmd/generate/generate.go --config=budget.yaml
+ 1003  go run cmd/generate/generate.go --testGenerateConfig budget.yaml
+ 1004  go run cmd/generate/generate.go budget.yaml
+ 1005  go run cmd/generate/generate.go budget.yaml --config=testGenerateConfig.yaml
+ 1006  go run cmd/generate/generate.go budget.yaml --config=testGenerateConfig.yaml
+ 1007  go run cmd/generate/generate.go budget.yaml --config=testGenerateConfig.yaml
+ 1008  go run cmd/generate/generate.go --config=testGenerateConfig.yaml budget.yaml
+ 1009  go run cmd/generate/generate.go --config=testGenerateConfig.yaml budget.yaml
+ 1010  go run cmd/generate/generate.go --config=testGenerateConfig.yaml budget.yaml
+ 1011  go run cmd/generate/generate.go --config=testGenerateConfig.yaml budget.yaml
+ 1012  go run cmd/generate/generate.go --config=testGenerateConfig.yaml budget.yaml
+ 1013  go run cmd/generate/generate.go --config=testGenerateConfig.yaml budget.yaml
+ 1014  clear
+ 1015  go run cmd/generate/generate.go --config=testGenerateConfig.yaml budget.yaml
+ 1016  go run cmd/generate/generate.go --config=testGenerateConfig.yaml budget.yaml
+ 1017  go run cmd/generate/generate.go --config=testGenerateConfig.yaml budget.yaml
+ 1018  go run cmd/generate/generate.go --config=testGenerateConfig.yaml budget.yaml
+ 1019  go run cmd/generate/generate.go --config=testGenerateConfig.yaml budget.yaml
+ 1020  go run cmd/generate/generate.go --config=testGenerateConfig.yaml budget.yaml
+ 1021  go run cmd/generate/generate.go --config=testGenerateConfig.yaml budget.yaml
+ 1022  go run cmd/generate/generate.go --config=testGenerateConfig.yaml budget.yaml
+ 1023  go run cmd/generate/generate.go --config=testGenerateConfig.yaml budget.yaml
+ 1024  go run cmd/generate/generate.go --config=testGenerateConfig.yaml budget.yaml
+ 1025  go run cmd/generate/generate.go --config=testGenerateConfig.yaml budget.yaml
+ 1026  go run cmd/generate/generate.go --config=testGenerateConfig.yaml budget.yaml
+ 1027  go run cmd/generate/generate.go --config=testGenerateConfig.yaml budget.yaml
+ 1028  go run cmd/generate/generate.go --config=testGenerateConfig.yaml budget.yaml
+ 1029  go run cmd/generate/generate.go --config=testGenerateConfig.yaml budget.yaml
+ 1030  go run cmd/generate/generate.go --config=testGenerateConfig.yaml budget.yaml
+ 1031  go run cmd/generate/generate.go --config=testGenerateConfig.yaml budget.yaml
+ 1032  go run cmd/generate/generate.go --config=testGenerateConfig.yaml budget.yaml
+ 1033  go run cmd/generate/generate.go --config=testGenerateConfig.yaml budget.yaml
+ 1034  go run cmd/generate/generate.go --config=testGenerateConfig.yaml budget.yaml
+ 1035  go run cmd/generate/generate.go --config=testGenerateConfig.yaml budget.yaml
+ 1036  go run cmd/generate/generate.go --config=testGenerateConfig.yaml budget.yaml
+ 1037  go run cmd/generate/generate.go --config=testGenerateConfig.yaml budget.yaml
+ 1038  go run cmd/generate/generate.go --config=testGenerateConfig.yaml budget.yaml
+ 1039  go run cmd/generate/generate.go --config=testGenerateConfig.yaml budget.yaml
+ 1040  go run cmd/generate/generate.go --config=testGenerateConfig.yaml budget.yaml
+ 1041  docker ps -a
+ 1042  docker ps -a
+ 1043  echo "# BucketListBackend" >> README.md\ngit init
+ 1044  git status
+ 1045  git add .
+ 1046  git commit -m "initial repo"
+ 1047  git branch -M main\ngit remote add origin https://github.com/Peyton232/BucketListBackend.git\ngit push -u origin main
+ 1048  go get "go.mongodb.org/mongo-driver/mongo/options"
+ 1049  go get "go.mongodb.org/mongo-driver/mongo"
+ 1050  git status
+ 1051  git add .
+ 1052  git commit -m "it woks"
+ 1053  git status
+ 1054  git add .
+ 1055  git commit -m "containers"
+ 1056  git push
+ 1057  git pull
+ 1058  git push
+ 1059  go run main.go
+ 1060  go run main.go
+ 1061  git status
+ 1062  git add .
+ 1063  git commit -m "added mongo passwords DO NOT STEAL ORIGINAL OC"
+ 1064  git status
+ 1065  git add .
+ 1066  git commit -m "real password this time ORIGINAL OC DO NOT STEAL"
+ 1067  git push
+ 1068  go run main.go
+ 1069  docker run dockerfile
+ 1070  docker run dockerfile
+ 1071  ./dockerfile
+ 1072  sudo ./dockerfile
+ 1073  docker build dockerfile
+ 1074  docker run dockerfile
+ 1075  docker run dockerfile
+ 1076  dockerfile
+ 1077  docker build -t dockerfile
+ 1078  docker builddockerfile
+ 1079  docker build dockerfile
+ 1080  docker build dockerfile .
+ 1081  docker build dockerfile 
+ 1082  docker build .
+ 1083  docker ps
+ 1084  docker run .
+ 1085  docker run
+ 1086  docker run dockerfile
+ 1087  docker build -t bucket .
+ 1088  docker run -dp 42069:42069 bucket
+ 1089  go run main.go
+ 1090  docker run dockerfile
+ 1091  docker build -t bucket
+ 1092  docker build -t . bucket
+ 1093  docker build -t bucket .
+ 1094  docker run -dp bucket
+ 1095  docker run -dp bucket .
+ 1096  docker run bucket
+ 1097  docker run -p 42069:42069 bucket
+ 1098  docker build -t bucket .
+ 1099  docker run -p 8080:8080 bucket
+ 1100  docker build -t bucket .
+ 1101  docker run -d bucket
+ 1102  docker run bucket
+ 1103  docker run -d -p 42069:42069 bucket
+ 1104  docker build -t bucket .
+ 1105  docker run -d -p 8080:8080 bucket
+ 1106  docker build -t bucket .
+ 1107  docker run -d -p 8080:8080 bucket
+ 1108  docker build -t bucket .
+ 1109  docker run -p 8080:8080 bucket
+ 1110  docker ps
+ 1111  docker kill dbc
+ 1112  docker run -p 8080:8080 bucket
+ 1113  docker run -p 8080:8080 bucket
+ 1114  docker build -t bucket .
+ 1115  docker run -p 8080:8080 bucket
+ 1116  go run main.go
+ 1117  go versino
+ 1118  go version
+ 1119  GOOS=linux GOARCH=amd64 go build main.go
+ 1120  docker run -p 8080:8080 bucket
+ 1121  docker images
+ 1122  docker ps -a
+ 1123  docker run -p 8080:8080 bucket
+ 1124  sudo slof -i -P -n | grep LISTEN
+ 1125  sudo lsof -i -P -n | grep LISTEN
+ 1126  docker build .
+ 1127  docker run sha256:e3d882b35c11c5979d3ecc8bd8d99319aed81af06b24a2d4fae55a5363ce1cde
+ 1128  docker run -p 8080:8080 sha256:e3d882b35c11c5979d3ecc8bd8d99319aed81af06b24a2d4fae55a5363ce1cde
+ 1129  docker build .
+ 1130  docker build .
+ 1131  go mod --help
+ 1132  go --help
+ 1133  go mdo
+ 1134  go mod
+ 1135  go mod why
+ 1136  go get
+ 1137  docker build .
+ 1138  docker build .
+ 1139  docker run -p 8080:8080 sha256:64a6dacb7d4cac4270c0d99e24ee0accf7a2e96775cee4d9eb5750dee1e35bb3
+ 1140  docker build .
+ 1141  docker run -p 8080:8080 sha256:741f6a555ac8b92fde0b9a16a277a310d223b1688777b22e7b9464ffa12edf6b
+ 1142  sudo lsof -i -P -n | grep LISTEN
+ 1143  netstat -tulpn | grep LISTEN
+ 1144  sudo nmap -sT -O localhost
+ 1145  ping localhost
+ 1146  docker run -p 8080:8080 sha256:741f6a555ac8b92fde0b9a16a277a310d223b1688777b22e7b9464ffa12edf6b
+ 1147  history | grep "go run"
+ 1148  history > grep "go run"
+ 1149  history > grep
